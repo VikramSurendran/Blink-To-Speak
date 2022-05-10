@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/vikaram/Downloads/mediapipe-master/mediapipe/examples/android/solutions/facemesh/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.188" />
+        <entry key="..\:/Users/vikaram/Downloads/mediapipe-master/mediapipe/examples/android/solutions/facemesh/src/main/res/drawable/gradient_action_bar_background.xml" value="0.1275" />
+        <entry key="..\:/Users/vikaram/Downloads/mediapipe-master/mediapipe/examples/android/solutions/facemesh/src/main/res/drawable/gradient_background.xml" value="0.188" />
+        <entry key="..\:/Users/vikaram/Downloads/mediapipe-master/mediapipe/examples/android/solutions/facemesh/src/main/res/drawable/ic_launcher_background.xml" value="0.188" />
+        <entry key="..\:/Users/vikaram/Downloads/mediapipe-master/mediapipe/examples/android/solutions/facemesh/src/main/res/layout/action_bar_layout.xml" value="0.268" />
+        <entry key="..\:/Users/vikaram/Downloads/mediapipe-master/mediapipe/examples/android/solutions/facemesh/src/main/res/layout/activity_learner.xml" value="0.22282608695652173" />
+        <entry key="..\:/Users/vikaram/Downloads/mediapipe-master/mediapipe/examples/android/solutions/facemesh/src/main/res/layout/activity_main.xml" value="0.2" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/BUILD/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>

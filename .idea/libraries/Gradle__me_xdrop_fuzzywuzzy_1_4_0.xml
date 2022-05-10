@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Gradle: me.xdrop:fuzzywuzzy:1.4.0">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/me.xdrop/fuzzywuzzy/1.4.0/9ab5d0aa1c87892e7c4c53d74d1e008c1724cf1a/fuzzywuzzy-1.4.0.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/me.xdrop/fuzzywuzzy/1.4.0/5fb68ca910976810e505fbe861244f0bb734f955/fuzzywuzzy-1.4.0-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/me.xdrop/fuzzywuzzy/1.4.0/c59c0c138c0d7481511f060d008521e977765707/fuzzywuzzy-1.4.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

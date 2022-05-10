@@ -1,0 +1,130 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.google.mediapipe.apps.facemesh.testrev"
+4    android:versionCode="1"
+5    android:versionName="1.0" >
+6
+7    <uses-sdk
+7-->C:\Users\vikaram\Downloads\mediapipe-master\mediapipe\examples\android\solutions\facemesh\src\main\AndroidManifest.xml:5:5-7:41
+8        android:minSdkVersion="21"
+8-->C:\Users\vikaram\Downloads\mediapipe-master\mediapipe\examples\android\solutions\facemesh\src\main\AndroidManifest.xml:6:9-35
+9        android:targetSdkVersion="31" />
+9-->C:\Users\vikaram\Downloads\mediapipe-master\mediapipe\examples\android\solutions\facemesh\src\main\AndroidManifest.xml:7:9-38
+10    <!-- For loading images from gallery -->
+11    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> <!-- For using the camera -->
+11-->C:\Users\vikaram\Downloads\mediapipe-master\mediapipe\examples\android\solutions\facemesh\src\main\AndroidManifest.xml:9:5-80
+11-->C:\Users\vikaram\Downloads\mediapipe-master\mediapipe\examples\android\solutions\facemesh\src\main\AndroidManifest.xml:9:22-77
+12    <uses-permission android:name="android.permission.CAMERA" />
+12-->C:\Users\vikaram\Downloads\mediapipe-master\mediapipe\examples\android\solutions\facemesh\src\main\AndroidManifest.xml:10:5-65
+12-->C:\Users\vikaram\Downloads\mediapipe-master\mediapipe\examples\android\solutions\facemesh\src\main\AndroidManifest.xml:10:22-62
+13
+14    <uses-feature android:name="android.hardware.camera" /> <!-- For logging solution events -->
+14-->C:\Users\vikaram\Downloads\mediapipe-master\mediapipe\examples\android\solutions\facemesh\src\main\AndroidManifest.xml:12:5-60
+14-->C:\Users\vikaram\Downloads\mediapipe-master\mediapipe\examples\android\solutions\facemesh\src\main\AndroidManifest.xml:12:19-57
+15    <uses-permission android:name="android.permission.INTERNET" />
+15-->C:\Users\vikaram\Downloads\mediapipe-master\mediapipe\examples\android\solutions\facemesh\src\main\AndroidManifest.xml:13:5-67
+15-->C:\Users\vikaram\Downloads\mediapipe-master\mediapipe\examples\android\solutions\facemesh\src\main\AndroidManifest.xml:13:22-64
+16    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+16-->C:\Users\vikaram\Downloads\mediapipe-master\mediapipe\examples\android\solutions\facemesh\src\main\AndroidManifest.xml:14:5-79
+16-->C:\Users\vikaram\Downloads\mediapipe-master\mediapipe\examples\android\solutions\facemesh\src\main\AndroidManifest.xml:14:22-76
+17
+18    <application
+18-->C:\Users\vikaram\Downloads\mediapipe-master\mediapipe\examples\android\solutions\facemesh\src\main\AndroidManifest.xml:16:5-37:19
+19        android:allowBackup="true"
+19-->C:\Users\vikaram\Downloads\mediapipe-master\mediapipe\examples\android\solutions\facemesh\src\main\AndroidManifest.xml:17:9-35
+20        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+20-->[androidx.core:core:1.7.0] C:\Users\vikaram\.gradle\caches\transforms-3\9c6ecf109cf468a9579f17684b1d36ae\transformed\core-1.7.0\AndroidManifest.xml:24:18-86
+21        android:debuggable="true"
+22        android:icon="@mipmap/ic_launcher"
+22-->C:\Users\vikaram\Downloads\mediapipe-master\mediapipe\examples\android\solutions\facemesh\src\main\AndroidManifest.xml:18:9-43
+23        android:label="Blink To Speak"
+23-->C:\Users\vikaram\Downloads\mediapipe-master\mediapipe\examples\android\solutions\facemesh\src\main\AndroidManifest.xml:19:9-39
+24        android:roundIcon="@mipmap/ic_launcher_round"
+24-->C:\Users\vikaram\Downloads\mediapipe-master\mediapipe\examples\android\solutions\facemesh\src\main\AndroidManifest.xml:20:9-54
+25        android:supportsRtl="true"
+25-->C:\Users\vikaram\Downloads\mediapipe-master\mediapipe\examples\android\solutions\facemesh\src\main\AndroidManifest.xml:21:9-35
+26        android:testOnly="true"
+27        android:theme="@style/AppTheme" >
+27-->C:\Users\vikaram\Downloads\mediapipe-master\mediapipe\examples\android\solutions\facemesh\src\main\AndroidManifest.xml:22:9-40
+28        <activity
+28-->C:\Users\vikaram\Downloads\mediapipe-master\mediapipe\examples\android\solutions\facemesh\src\main\AndroidManifest.xml:23:9-25:40
+29            android:name="com.google.mediapipe.examples.facemesh.Learner"
+29-->C:\Users\vikaram\Downloads\mediapipe-master\mediapipe\examples\android\solutions\facemesh\src\main\AndroidManifest.xml:24:13-36
+30            android:exported="false" />
+30-->C:\Users\vikaram\Downloads\mediapipe-master\mediapipe\examples\android\solutions\facemesh\src\main\AndroidManifest.xml:25:13-37
+31        <activity
+31-->C:\Users\vikaram\Downloads\mediapipe-master\mediapipe\examples\android\solutions\facemesh\src\main\AndroidManifest.xml:26:9-36:20
+32            android:name="com.google.mediapipe.examples.facemesh.MainActivity"
+32-->C:\Users\vikaram\Downloads\mediapipe-master\mediapipe\examples\android\solutions\facemesh\src\main\AndroidManifest.xml:27:13-41
+33            android:exported="true"
+33-->C:\Users\vikaram\Downloads\mediapipe-master\mediapipe\examples\android\solutions\facemesh\src\main\AndroidManifest.xml:28:13-36
+34            android:screenOrientation="portrait"
+34-->C:\Users\vikaram\Downloads\mediapipe-master\mediapipe\examples\android\solutions\facemesh\src\main\AndroidManifest.xml:29:13-49
+35            android:theme="@style/AppTheme.NoActionBarAndStatusBar" >
+35-->C:\Users\vikaram\Downloads\mediapipe-master\mediapipe\examples\android\solutions\facemesh\src\main\AndroidManifest.xml:30:13-68
+36            <intent-filter>
+36-->C:\Users\vikaram\Downloads\mediapipe-master\mediapipe\examples\android\solutions\facemesh\src\main\AndroidManifest.xml:31:13-35:29
+37                <action android:name="android.intent.action.MAIN" />
+37-->C:\Users\vikaram\Downloads\mediapipe-master\mediapipe\examples\android\solutions\facemesh\src\main\AndroidManifest.xml:32:17-69
+37-->C:\Users\vikaram\Downloads\mediapipe-master\mediapipe\examples\android\solutions\facemesh\src\main\AndroidManifest.xml:32:25-66
+38
+39                <category android:name="android.intent.category.LAUNCHER" />
+39-->C:\Users\vikaram\Downloads\mediapipe-master\mediapipe\examples\android\solutions\facemesh\src\main\AndroidManifest.xml:34:17-77
+39-->C:\Users\vikaram\Downloads\mediapipe-master\mediapipe\examples\android\solutions\facemesh\src\main\AndroidManifest.xml:34:27-74
+40            </intent-filter>
+41        </activity>
+42
+43        <service
+43-->[com.google.android.datatransport:transport-backend-cct:3.1.0] C:\Users\vikaram\.gradle\caches\transforms-3\be44630c270cd1ed0d585f7e3abed79e\transformed\transport-backend-cct-3.1.0\AndroidManifest.xml:29:9-35:19
+44            android:name="com.google.android.datatransport.runtime.backends.TransportBackendDiscovery"
+44-->[com.google.android.datatransport:transport-backend-cct:3.1.0] C:\Users\vikaram\.gradle\caches\transforms-3\be44630c270cd1ed0d585f7e3abed79e\transformed\transport-backend-cct-3.1.0\AndroidManifest.xml:30:13-103
+45            android:exported="false" >
+45-->[com.google.android.datatransport:transport-backend-cct:3.1.0] C:\Users\vikaram\.gradle\caches\transforms-3\be44630c270cd1ed0d585f7e3abed79e\transformed\transport-backend-cct-3.1.0\AndroidManifest.xml:31:13-37
+46            <meta-data
+46-->[com.google.android.datatransport:transport-backend-cct:3.1.0] C:\Users\vikaram\.gradle\caches\transforms-3\be44630c270cd1ed0d585f7e3abed79e\transformed\transport-backend-cct-3.1.0\AndroidManifest.xml:32:13-34:39
+47                android:name="backend:com.google.android.datatransport.cct.CctBackendFactory"
+47-->[com.google.android.datatransport:transport-backend-cct:3.1.0] C:\Users\vikaram\.gradle\caches\transforms-3\be44630c270cd1ed0d585f7e3abed79e\transformed\transport-backend-cct-3.1.0\AndroidManifest.xml:33:17-94
+48                android:value="cct" />
+48-->[com.google.android.datatransport:transport-backend-cct:3.1.0] C:\Users\vikaram\.gradle\caches\transforms-3\be44630c270cd1ed0d585f7e3abed79e\transformed\transport-backend-cct-3.1.0\AndroidManifest.xml:34:17-36
+49        </service>
+50        <service
+50-->[com.google.android.datatransport:transport-runtime:3.1.0] C:\Users\vikaram\.gradle\caches\transforms-3\8a689c63a045aae99e0390f71511f558\transformed\transport-runtime-3.1.0\AndroidManifest.xml:26:9-30:19
+51            android:name="com.google.android.datatransport.runtime.scheduling.jobscheduling.JobInfoSchedulerService"
+51-->[com.google.android.datatransport:transport-runtime:3.1.0] C:\Users\vikaram\.gradle\caches\transforms-3\8a689c63a045aae99e0390f71511f558\transformed\transport-runtime-3.1.0\AndroidManifest.xml:27:13-117
+52            android:exported="false"
+52-->[com.google.android.datatransport:transport-runtime:3.1.0] C:\Users\vikaram\.gradle\caches\transforms-3\8a689c63a045aae99e0390f71511f558\transformed\transport-runtime-3.1.0\AndroidManifest.xml:28:13-37
+53            android:permission="android.permission.BIND_JOB_SERVICE" >
+53-->[com.google.android.datatransport:transport-runtime:3.1.0] C:\Users\vikaram\.gradle\caches\transforms-3\8a689c63a045aae99e0390f71511f558\transformed\transport-runtime-3.1.0\AndroidManifest.xml:29:13-69
+54        </service>
+55
+56        <receiver
+56-->[com.google.android.datatransport:transport-runtime:3.1.0] C:\Users\vikaram\.gradle\caches\transforms-3\8a689c63a045aae99e0390f71511f558\transformed\transport-runtime-3.1.0\AndroidManifest.xml:32:9-34:40
+57            android:name="com.google.android.datatransport.runtime.scheduling.jobscheduling.AlarmManagerSchedulerBroadcastReceiver"
+57-->[com.google.android.datatransport:transport-runtime:3.1.0] C:\Users\vikaram\.gradle\caches\transforms-3\8a689c63a045aae99e0390f71511f558\transformed\transport-runtime-3.1.0\AndroidManifest.xml:33:13-132
+58            android:exported="false" />
+58-->[com.google.android.datatransport:transport-runtime:3.1.0] C:\Users\vikaram\.gradle\caches\transforms-3\8a689c63a045aae99e0390f71511f558\transformed\transport-runtime-3.1.0\AndroidManifest.xml:34:13-37
+59
+60        <provider
+60-->[androidx.emoji2:emoji2:1.0.0] C:\Users\vikaram\.gradle\caches\transforms-3\985c3669ea5d66268bd96d716320eb11\transformed\emoji2-1.0.0\AndroidManifest.xml:26:9-34:20
+61            android:name="androidx.startup.InitializationProvider"
+61-->[androidx.emoji2:emoji2:1.0.0] C:\Users\vikaram\.gradle\caches\transforms-3\985c3669ea5d66268bd96d716320eb11\transformed\emoji2-1.0.0\AndroidManifest.xml:27:13-67
+62            android:authorities="com.google.mediapipe.apps.facemesh.testrev.androidx-startup"
+62-->[androidx.emoji2:emoji2:1.0.0] C:\Users\vikaram\.gradle\caches\transforms-3\985c3669ea5d66268bd96d716320eb11\transformed\emoji2-1.0.0\AndroidManifest.xml:28:13-68
+63            android:exported="false" >
+63-->[androidx.emoji2:emoji2:1.0.0] C:\Users\vikaram\.gradle\caches\transforms-3\985c3669ea5d66268bd96d716320eb11\transformed\emoji2-1.0.0\AndroidManifest.xml:29:13-37
+64            <meta-data
+64-->[androidx.emoji2:emoji2:1.0.0] C:\Users\vikaram\.gradle\caches\transforms-3\985c3669ea5d66268bd96d716320eb11\transformed\emoji2-1.0.0\AndroidManifest.xml:31:13-33:52
+65                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+65-->[androidx.emoji2:emoji2:1.0.0] C:\Users\vikaram\.gradle\caches\transforms-3\985c3669ea5d66268bd96d716320eb11\transformed\emoji2-1.0.0\AndroidManifest.xml:32:17-75
+66                android:value="androidx.startup" />
+66-->[androidx.emoji2:emoji2:1.0.0] C:\Users\vikaram\.gradle\caches\transforms-3\985c3669ea5d66268bd96d716320eb11\transformed\emoji2-1.0.0\AndroidManifest.xml:33:17-49
+67            <meta-data
+67-->[androidx.lifecycle:lifecycle-process:2.4.0] C:\Users\vikaram\.gradle\caches\transforms-3\a6d7b42cad761ee8714c996f2b679418\transformed\lifecycle-process-2.4.0\AndroidManifest.xml:31:13-33:52
+68                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+68-->[androidx.lifecycle:lifecycle-process:2.4.0] C:\Users\vikaram\.gradle\caches\transforms-3\a6d7b42cad761ee8714c996f2b679418\transformed\lifecycle-process-2.4.0\AndroidManifest.xml:32:17-78
+69                android:value="androidx.startup" />
+69-->[androidx.lifecycle:lifecycle-process:2.4.0] C:\Users\vikaram\.gradle\caches\transforms-3\a6d7b42cad761ee8714c996f2b679418\transformed\lifecycle-process-2.4.0\AndroidManifest.xml:33:17-49
+70        </provider>
+71    </application>
+72
+73</manifest>
