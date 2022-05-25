@@ -1,6 +1,6 @@
 1<?xml version="1.0" encoding="utf-8"?>
 2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-3    package="com.google.mediapipe.apps.facemesh.testrev"
+3    package="com.google.mediapipe.apps.facemesh.final"
 4    android:versionCode="1"
 5    android:versionName="1.0" >
 6
@@ -108,7 +108,7 @@
 60-->[androidx.emoji2:emoji2:1.0.0] C:\Users\vikaram\.gradle\caches\transforms-3\985c3669ea5d66268bd96d716320eb11\transformed\emoji2-1.0.0\AndroidManifest.xml:26:9-34:20
 61            android:name="androidx.startup.InitializationProvider"
 61-->[androidx.emoji2:emoji2:1.0.0] C:\Users\vikaram\.gradle\caches\transforms-3\985c3669ea5d66268bd96d716320eb11\transformed\emoji2-1.0.0\AndroidManifest.xml:27:13-67
-62            android:authorities="com.google.mediapipe.apps.facemesh.testrev.androidx-startup"
+62            android:authorities="com.google.mediapipe.apps.facemesh.final.androidx-startup"
 62-->[androidx.emoji2:emoji2:1.0.0] C:\Users\vikaram\.gradle\caches\transforms-3\985c3669ea5d66268bd96d716320eb11\transformed\emoji2-1.0.0\AndroidManifest.xml:28:13-68
 63            android:exported="false" >
 63-->[androidx.emoji2:emoji2:1.0.0] C:\Users\vikaram\.gradle\caches\transforms-3\985c3669ea5d66268bd96d716320eb11\transformed\emoji2-1.0.0\AndroidManifest.xml:29:13-37

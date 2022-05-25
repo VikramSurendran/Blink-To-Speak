@@ -2,8 +2,13 @@ package com.google.mediapipe.examples.facemesh;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.annotation.NonNull;
+
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.MenuItem;
+import android.view.Window;
 import android.widget.LinearLayout;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener;
@@ -19,17 +24,26 @@ public class Learner extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //supportRequestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
         setContentView(R.layout.activity_learner);
+
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setCustomView(R.layout.action_bar_layout);
-        ColorDrawable colorDrawable
-                = new ColorDrawable(Color.parseColor("#8CBBF1"));
-        // Set BackgroundDrawable
-        //actionBar.setBackgroundDrawable(colorDrawable);
+//        ColorDrawable colorDrawable
+//                = new ColorDrawable(Color.parseColor("#8CBBF1"));
+//        actionBar.setBackgroundDrawable(colorDrawable);
         actionBar.setBackgroundDrawable(getResources().getDrawable(R.drawable.gradient_action_bar_background));
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeAsUpIndicator(R.drawable.ic_action_back);
+//        androidx.appcompat.app.ActionBar actionBar = getSupportActionBar();
+//        actionBar.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+//        actionBar.setHomeButtonEnabled(true);
+//        actionBar.setDisplayHomeAsUpEnabled(true);
+//        final Drawable upArrow = getResources().getDrawable(R.drawable.ic_action_back);
+//        upArrow.setColorFilter(Color.parseColor("#FFFFFF"), PorterDuff.Mode.SRC_ATOP);
+//        getSupportActionBar().setHomeAsUpIndicator(upArrow);
+//        actionBar.setTitle(Html.fromHtml("<font color='#FFFFFF'>Blog Details</font>"));
 
         String[] videoIds = {"tXnnM_chaJA", "uLwRij1rvHQ", "VYbiMtBxan4", "3YR-rCOxNa4", "rL03rXlIH4I", "ywJ_ceAL_nA", "m6sGmiyReq0",
                 "UNtdn5JfkXM", "Jv6mVTjXN0g", "C4ZP8M80XzY", "h-zBkYCbTrc", "as6Wj3WeRfI", "KePVqKuXtUs", "e-Ik2nXUlpI",

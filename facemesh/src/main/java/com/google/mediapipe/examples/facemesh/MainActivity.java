@@ -77,6 +77,11 @@ public class MainActivity extends AppCompatActivity {
   Map<String,String> dict = new HashMap<>();
   TextToSpeech t1;
   int togg=0;
+  int new_togg = 0;
+  int camera_flag =0;
+  int trigger = 0;
+  int trigger_count = 0;
+  int temp_var = 0;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -324,18 +329,59 @@ public class MainActivity extends AppCompatActivity {
               }
             });
     Button loadVideoButton = findViewById(R.id.button_load_video);
+//    loadVideoButton.setOnClickListener(
+//        v -> {
+//          clearButtonUtility();
+//          stopCurrentPipeline();
+//          setupStreamingModePipeline(InputSource.VIDEO);
+//          // Reads video from gallery.
+//          Intent pickVideoIntent = new Intent(Intent.ACTION_PICK);
+//          pickVideoIntent.setDataAndType(MediaStore.Video.Media.INTERNAL_CONTENT_URI, "video/*");
+//          videoGetter.launch(pickVideoIntent);
+//          tv.setText("Processing...");
+//
+//        });
     loadVideoButton.setOnClickListener(
-        v -> {
-          clearButtonUtility();
-          stopCurrentPipeline();
-          setupStreamingModePipeline(InputSource.VIDEO);
-          // Reads video from gallery.
-          Intent pickVideoIntent = new Intent(Intent.ACTION_PICK);
-          pickVideoIntent.setDataAndType(MediaStore.Video.Media.INTERNAL_CONTENT_URI, "video/*");
-          videoGetter.launch(pickVideoIntent);
-          tv.setText("Processing...");
+            v -> {
+              if(new_togg==0){
+//            if (inputSource == InputSource.CAMERA) {
+//              return;
+//            }
+                clearButtonUtility();
+                stopCurrentPipeline();
+                camera_flag=1;
+                setupStreamingModePipeline(InputSource.CAMERA);
+                if(ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
+                  tv.setText("Please provide Camera Access to begin and if you have already done so click on 'Start Camera' to begin" );
+                }else {
+                  new_togg++;
+                  //tv.setText("Capturing...");
+                  loadVideoButton.setText("Stop Camera");
+                }
+              }else{
+                loadVideoButton.setText("Start Camera");
+                //stopCurrentPipeline();
+                if (cameraInput != null) {
+                  cameraInput.setNewFrameListener(null);
+                  cameraInput.close();
+                }
+                if (videoInput != null) {
+                  videoInput.setNewFrameListener(null);
+                  videoInput.close();
+                }
+                if (glSurfaceView != null) {
+                  glSurfaceView.setVisibility(View.GONE);
+                }
+                FrameLayout frameLayout = findViewById(R.id.preview_display_layout);
+                imageView.setVisibility(View.GONE);
+                frameLayout.removeAllViewsInLayout();
+                clearButtonUtility();
+                //resultButtonUtility();
+                new_togg=0;
 
-        });
+              }
+
+            });
   }
 
   /** Sets up the UI components for the live demo with camera input. */
@@ -350,16 +396,17 @@ public class MainActivity extends AppCompatActivity {
 //            }
             clearButtonUtility();
             stopCurrentPipeline();
+            camera_flag=0;
             setupStreamingModePipeline(InputSource.CAMERA);
             if(ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
                 tv.setText("Please provide Camera Access to begin and if you have already done so click on 'Start Camera' to begin" );
             }else {
               togg++;
               tv.setText("Capturing...");
-              startCameraButton.setText("Stop Camera");
+              startCameraButton.setText("Stop Capture");
             }
           }else{
-            startCameraButton.setText("Start Camera");
+            startCameraButton.setText("Start Capture");
             //stopCurrentPipeline();
             if (cameraInput != null) {
               cameraInput.setNewFrameListener(null);
@@ -600,128 +647,282 @@ public class MainActivity extends AppCompatActivity {
         Log.i( TAG, resultSequence.toString());
       }
     } else {
-      //Log.i( TAG, "Normalized Distance:");
-      //Log.i( TAG, "Its not blank now!!");
-      double lh = calculateDistanceNormalized(leftHorizontal1,leftHorizontal2);
-      double rh = calculateDistanceNormalized(rightHorizontal1,rightHorizontal2);
-      double lv1 = calculateDistanceNormalized(leftTop1,leftBottom1);
-      double lv2 = calculateDistanceNormalized(leftTop2,leftBottom2);
-      double rv1 = calculateDistanceNormalized(rightTop1,rightBottom1);
-      double rv2 = calculateDistanceNormalized(rightTop2,rightBottom2);
-      double leftEyeRatio = (lv1+lv2)/ (2*lh);
-      double rightEyeRatio = (rv1 + rv2)/ (2*rh);
-      Log.i( TAG, String.format("Left ER: %f  Right ER: %f", leftEyeRatio,rightEyeRatio));
-      if(leftEyeRatio < 0.1 && !(rightEyeRatio<0.1))
-      {
-        resultSequence.add("W");
-       // Log.i( TAG, resultSequence.toString());
-      }else if(!(leftEyeRatio<0.1) && rightEyeRatio<0.1){
-        resultSequence.add("V");
-      }
-      else if((leftEyeRatio + rightEyeRatio)/2 < 0.1)
-      {
-        resultSequence.add("C");
-        //Log.i( TAG, resultSequence.toString());
+      if(camera_flag==0) {
+        //Log.i( TAG, "Normalized Distance:");
+        //Log.i( TAG, "Its not blank now!!");
+        double lh = calculateDistanceNormalized(leftHorizontal1, leftHorizontal2);
+        double rh = calculateDistanceNormalized(rightHorizontal1, rightHorizontal2);
+        double lv1 = calculateDistanceNormalized(leftTop1, leftBottom1);
+        double lv2 = calculateDistanceNormalized(leftTop2, leftBottom2);
+        double rv1 = calculateDistanceNormalized(rightTop1, rightBottom1);
+        double rv2 = calculateDistanceNormalized(rightTop2, rightBottom2);
+        double leftEyeRatio = (lv1 + lv2) / (2 * lh);
+        double rightEyeRatio = (rv1 + rv2) / (2 * rh);
+        //Log.i( TAG, String.format("Left ER: %f  Right ER: %f", leftEyeRatio,rightEyeRatio));
+        if (leftEyeRatio < 0.1 && !(rightEyeRatio < 0.1)) {
+          resultSequence.add("W");
+          // Log.i( TAG, resultSequence.toString());
+        } else if (!(leftEyeRatio < 0.1) && rightEyeRatio < 0.1) {
+          resultSequence.add("V");
+        } else if ((leftEyeRatio + rightEyeRatio) / 2 < 0.1) {
+          resultSequence.add("C");
+          //Log.i( TAG, resultSequence.toString());
+        } else {
+          // eye
+          NormalizedLandmark leftPupil = result.multiFaceLandmarks().get(0).getLandmarkList().get(473);
+          NormalizedLandmark rightPupil = result.multiFaceLandmarks().get(0).getLandmarkList().get(468);
+          double leftpupiltoCorner1 = calculateDistanceNormalized(leftPupil, leftTop1);
+          double leftpupiltoCorner2 = calculateDistanceNormalized(leftPupil, leftTop2);
+          double rightpupiltoCorner1 = calculateDistanceNormalized(rightPupil, rightTop1);
+          double rightpupiltoCorner2 = calculateDistanceNormalized(rightPupil, rightTop2);
+          //Log.i( TAG, String.format("LeftPupiltoCorner1: %f  LeftPupiltoCorner2: %f RightPupiltoCorner1: %f RightPupiltoCorner2: %f", leftpupiltoCorner1,leftpupiltoCorner2, rightpupiltoCorner1, rightpupiltoCorner2));
+
+          // for finding up center to top corners and bottom corners and their sum
+          //        double leftpupiltoBottom1 = calculateDistanceNormalized(leftPupil,leftBottom1);
+          //        double leftpupiltoBottom2 = calculateDistanceNormalized(leftPupil,leftBottom2);
+          //        double rightpupiltoBottom1 = calculateDistanceNormalized(rightPupil,rightBottom1);
+          //        double rightpupiltoBottom2 = calculateDistanceNormalized(rightPupil,rightBottom2);
+          //        double leftpupilUpper = leftpupiltoCorner1 + leftpupiltoCorner2;
+          //        double leftpupilLower = leftpupiltoBottom1 + leftpupiltoBottom2;
+          //        double rightpupilUpper = rightpupiltoCorner1 + rightpupiltoCorner2;
+          //        double rightpupilLower = rightpupiltoBottom1 + rightpupiltoBottom2;
+          //        Log.i( TAG, String.format("LeftPupiltoUpper: %f  LeftPupilLower: %f RightPupilUpper: %f RightPupilLower: %f", leftpupilUpper,leftpupilLower, rightpupilUpper, rightpupilLower));
+
+          // for finding up pupil up to upper and pupil down to bottom
+          //        NormalizedLandmark leftPupilUp = result.multiFaceLandmarks().get(0).getLandmarkList().get(475);
+          //        NormalizedLandmark leftPupilDown = result.multiFaceLandmarks().get(0).getLandmarkList().get(477);
+          //        NormalizedLandmark rightPupilUp = result.multiFaceLandmarks().get(0).getLandmarkList().get(470);
+          //        NormalizedLandmark rightPupilDown = result.multiFaceLandmarks().get(0).getLandmarkList().get(472);
+          //        double leftpupiluptoTop1 = calculateDistanceNormalized(leftPupilUp, leftTop1);
+          //        double leftpupiluptoTop2 = calculateDistanceNormalized(leftPupilUp, leftTop2);
+          //        double rightpupiluptoTop1 = calculateDistanceNormalized(rightPupilUp,rightTop1);
+          //        double rightpupiluptoTop2 = calculateDistanceNormalized(rightPupilUp,rightTop2);
+          //        double leftpupildowntoBottom1 = calculateDistanceNormalized(leftPupilDown,leftBottom1);
+          //        double leftpupildowntoBottom2 = calculateDistanceNormalized(leftPupilDown,leftBottom2);
+          //        double rightpupildowntoBottom1 = calculateDistanceNormalized(rightPupilDown,rightBottom1);
+          //        double rightpupildowntoBottom2 = calculateDistanceNormalized(rightPupilDown,rightBottom2);
+          //        double leftpupilupUpper = leftpupiluptoTop1 + leftpupiluptoTop2;
+          //        double leftpupildownLower = leftpupildowntoBottom1 + leftpupildowntoBottom2;
+          //        double rightpupilupUpper = rightpupiluptoTop1 + rightpupiluptoTop2;
+          //        double rightpupildownLower = rightpupildowntoBottom1 + rightpupildowntoBottom2;
+          //        Log.i( TAG, String.format("LeftPupilupUpper: %f  LeftPupildownLower: %f RightPupilupUpper: %f RightPupildownLower: %f", leftpupilupUpper,leftpupildownLower, rightpupilupUpper, rightpupildownLower));
+
+          // for finding up using pupil up to eye contour center up and pupil down to eye contour down
+          //        NormalizedLandmark leftPupilUp = result.multiFaceLandmarks().get(0).getLandmarkList().get(475);
+          //        NormalizedLandmark leftPupilDown = result.multiFaceLandmarks().get(0).getLandmarkList().get(477);
+          //        NormalizedLandmark rightPupilUp = result.multiFaceLandmarks().get(0).getLandmarkList().get(470);
+          //        NormalizedLandmark rightPupilDown = result.multiFaceLandmarks().get(0).getLandmarkList().get(472);
+          //        NormalizedLandmark leftTopCenter = result.multiFaceLandmarks().get(0).getLandmarkList().get(386);
+          //        NormalizedLandmark leftBottomCenter = result.multiFaceLandmarks().get(0).getLandmarkList().get(374);
+          //        NormalizedLandmark rightTopCenter = result.multiFaceLandmarks().get(0).getLandmarkList().get(159);
+          //        NormalizedLandmark rightBottomCenter = result.multiFaceLandmarks().get(0).getLandmarkList().get(145);
+          //        double leftpupiluptoTopCenter = calculateDistanceNormalized(leftPupilUp, leftTopCenter);
+          //        double rightpupiluptoTopCenter = calculateDistanceNormalized(rightPupilUp,rightTopCenter);
+          //        double leftpupildowntoBottomCenter = calculateDistanceNormalized(leftPupilDown,leftBottomCenter);
+          //        double rightpupildowntoBottomCenter = calculateDistanceNormalized(rightPupilDown,rightBottomCenter);
+          //        Log.i( TAG, String.format("LeftPupiluptoTopCenter: %f  LeftPupildowntoBottomCenter: %f RightPupiluptoTopCenter: %f RightPupildowntoBottomCenter: %f", leftpupiluptoTopCenter,leftpupildowntoBottomCenter, rightpupiluptoTopCenter, rightpupildowntoBottomCenter));
+
+          // for finding up using pupil center to face up and down method 1
+          //        NormalizedLandmark leftFaceUp = result.multiFaceLandmarks().get(0).getLandmarkList().get(257);
+          //        NormalizedLandmark leftFaceDown = result.multiFaceLandmarks().get(0).getLandmarkList().get(253);
+          //        NormalizedLandmark rightFaceUp = result.multiFaceLandmarks().get(0).getLandmarkList().get(27);
+          //        NormalizedLandmark rightFaceDown = result.multiFaceLandmarks().get(0).getLandmarkList().get(23);
+          //        double leftpupiltoFaceUp = calculateDistanceNormalized(leftPupil, leftFaceUp);
+          //        double leftpupiltoFaceDown = calculateDistanceNormalized(leftPupil, leftFaceDown);
+          //        double rightpupiltoFaceUp = calculateDistanceNormalized(rightPupil, rightFaceUp);
+          //        double rightpupiltoFaceDown = calculateDistanceNormalized(rightPupil, rightFaceDown);
+          //        Log.i( TAG, String.format("LeftPupiltoFaceUp: %f  LeftPupiltoFaceDown: %f RightPupiltoFaceUp: %f RightPupiltoFaceDown: %f", leftpupiltoFaceUp,leftpupiltoFaceDown, rightpupiltoFaceUp, rightpupiltoFaceDown));
+
+          // for finding up pupil up to line and pupil down to line distance
+          NormalizedLandmark leftPupilUp = result.multiFaceLandmarks().get(0).getLandmarkList().get(475);
+          NormalizedLandmark leftPupilDown = result.multiFaceLandmarks().get(0).getLandmarkList().get(477);
+          NormalizedLandmark rightPupilUp = result.multiFaceLandmarks().get(0).getLandmarkList().get(470);
+          NormalizedLandmark rightPupilDown = result.multiFaceLandmarks().get(0).getLandmarkList().get(472);
+          double leftpupilUptoLine = calculatePointDistance(leftPupilUp, leftHorizontal1, leftHorizontal2);
+          double leftpupilDowntoLine = calculatePointDistance(leftPupilDown, leftHorizontal1, leftHorizontal2);
+          double rightpupilUptoLine = calculatePointDistance(rightPupilUp, rightHorizontal1, rightHorizontal2);
+          double rightpupilDowntoLine = calculatePointDistance(rightPupilDown, rightHorizontal1, rightHorizontal2);
+
+
+          //Log.i( TAG, String.format("LeftPupilUptoLine: %f  LeftPupilDowntoLine: %f RightPupilUptoLine: %f RightPupilDowntoLine: %f", leftpupilUptoLine,leftpupilDowntoLine, rightpupilUptoLine, rightpupilDowntoLine));
+
+          if (leftpupilUptoLine > (2 * leftpupilDowntoLine) && rightpupilUptoLine > (2 * rightpupilDowntoLine)) {
+            resultSequence.add("U");
+            //Log.i( TAG, resultSequence.toString());
+          }
+          //        else if(Math.abs(leftpupilDowntoLine-leftpupilUptoLine)<0.003 && Math.abs(rightpupilDowntoLine-rightpupilUptoLine)<0.003){
+          //          resultSequence.add("d");
+          //          //Log.i( TAG, resultSequence.toString());
+          //        }
+          else if (leftpupiltoCorner1 > (2 * leftpupiltoCorner2) && rightpupiltoCorner1 > (2 * rightpupiltoCorner2)) {
+            resultSequence.add("L");
+            //Log.i( TAG, resultSequence.toString());
+          } else if (leftpupiltoCorner2 > (2 * leftpupiltoCorner1) && rightpupiltoCorner2 > (2 * rightpupiltoCorner1)) {
+            resultSequence.add("R");
+            //Log.i( TAG, resultSequence.toString());
+          } else {
+            resultSequence.add("O");
+            //Log.i(TAG, resultSequence.toString());
+          }
+        }
+        //tv.setText(resultSequence.toString());
       }else{
-        // eye
-        NormalizedLandmark leftPupil = result.multiFaceLandmarks().get(0).getLandmarkList().get(473);
-        NormalizedLandmark rightPupil = result.multiFaceLandmarks().get(0).getLandmarkList().get(468);
-        double leftpupiltoCorner1 = calculateDistanceNormalized(leftPupil,leftTop1);
-        double leftpupiltoCorner2 = calculateDistanceNormalized(leftPupil,leftTop2);
-        double rightpupiltoCorner1 = calculateDistanceNormalized(rightPupil,rightTop1);
-        double rightpupiltoCorner2 = calculateDistanceNormalized(rightPupil,rightTop2);
-        //Log.i( TAG, String.format("LeftPupiltoCorner1: %f  LeftPupiltoCorner2: %f RightPupiltoCorner1: %f RightPupiltoCorner2: %f", leftpupiltoCorner1,leftpupiltoCorner2, rightpupiltoCorner1, rightpupiltoCorner2));
-
-// for finding up center to top corners and bottom corners and their sum
-//        double leftpupiltoBottom1 = calculateDistanceNormalized(leftPupil,leftBottom1);
-//        double leftpupiltoBottom2 = calculateDistanceNormalized(leftPupil,leftBottom2);
-//        double rightpupiltoBottom1 = calculateDistanceNormalized(rightPupil,rightBottom1);
-//        double rightpupiltoBottom2 = calculateDistanceNormalized(rightPupil,rightBottom2);
-//        double leftpupilUpper = leftpupiltoCorner1 + leftpupiltoCorner2;
-//        double leftpupilLower = leftpupiltoBottom1 + leftpupiltoBottom2;
-//        double rightpupilUpper = rightpupiltoCorner1 + rightpupiltoCorner2;
-//        double rightpupilLower = rightpupiltoBottom1 + rightpupiltoBottom2;
-//        Log.i( TAG, String.format("LeftPupiltoUpper: %f  LeftPupilLower: %f RightPupilUpper: %f RightPupilLower: %f", leftpupilUpper,leftpupilLower, rightpupilUpper, rightpupilLower));
-
-// for finding up pupil up to upper and pupil down to bottom
-//        NormalizedLandmark leftPupilUp = result.multiFaceLandmarks().get(0).getLandmarkList().get(475);
-//        NormalizedLandmark leftPupilDown = result.multiFaceLandmarks().get(0).getLandmarkList().get(477);
-//        NormalizedLandmark rightPupilUp = result.multiFaceLandmarks().get(0).getLandmarkList().get(470);
-//        NormalizedLandmark rightPupilDown = result.multiFaceLandmarks().get(0).getLandmarkList().get(472);
-//        double leftpupiluptoTop1 = calculateDistanceNormalized(leftPupilUp, leftTop1);
-//        double leftpupiluptoTop2 = calculateDistanceNormalized(leftPupilUp, leftTop2);
-//        double rightpupiluptoTop1 = calculateDistanceNormalized(rightPupilUp,rightTop1);
-//        double rightpupiluptoTop2 = calculateDistanceNormalized(rightPupilUp,rightTop2);
-//        double leftpupildowntoBottom1 = calculateDistanceNormalized(leftPupilDown,leftBottom1);
-//        double leftpupildowntoBottom2 = calculateDistanceNormalized(leftPupilDown,leftBottom2);
-//        double rightpupildowntoBottom1 = calculateDistanceNormalized(rightPupilDown,rightBottom1);
-//        double rightpupildowntoBottom2 = calculateDistanceNormalized(rightPupilDown,rightBottom2);
-//        double leftpupilupUpper = leftpupiluptoTop1 + leftpupiluptoTop2;
-//        double leftpupildownLower = leftpupildowntoBottom1 + leftpupildowntoBottom2;
-//        double rightpupilupUpper = rightpupiluptoTop1 + rightpupiluptoTop2;
-//        double rightpupildownLower = rightpupildowntoBottom1 + rightpupildowntoBottom2;
-//        Log.i( TAG, String.format("LeftPupilupUpper: %f  LeftPupildownLower: %f RightPupilupUpper: %f RightPupildownLower: %f", leftpupilupUpper,leftpupildownLower, rightpupilupUpper, rightpupildownLower));
-
-// for finding up using pupil up to eye contour center up and pupil down to eye contour down
-//        NormalizedLandmark leftPupilUp = result.multiFaceLandmarks().get(0).getLandmarkList().get(475);
-//        NormalizedLandmark leftPupilDown = result.multiFaceLandmarks().get(0).getLandmarkList().get(477);
-//        NormalizedLandmark rightPupilUp = result.multiFaceLandmarks().get(0).getLandmarkList().get(470);
-//        NormalizedLandmark rightPupilDown = result.multiFaceLandmarks().get(0).getLandmarkList().get(472);
-//        NormalizedLandmark leftTopCenter = result.multiFaceLandmarks().get(0).getLandmarkList().get(386);
-//        NormalizedLandmark leftBottomCenter = result.multiFaceLandmarks().get(0).getLandmarkList().get(374);
-//        NormalizedLandmark rightTopCenter = result.multiFaceLandmarks().get(0).getLandmarkList().get(159);
-//        NormalizedLandmark rightBottomCenter = result.multiFaceLandmarks().get(0).getLandmarkList().get(145);
-//        double leftpupiluptoTopCenter = calculateDistanceNormalized(leftPupilUp, leftTopCenter);
-//        double rightpupiluptoTopCenter = calculateDistanceNormalized(rightPupilUp,rightTopCenter);
-//        double leftpupildowntoBottomCenter = calculateDistanceNormalized(leftPupilDown,leftBottomCenter);
-//        double rightpupildowntoBottomCenter = calculateDistanceNormalized(rightPupilDown,rightBottomCenter);
-//        Log.i( TAG, String.format("LeftPupiluptoTopCenter: %f  LeftPupildowntoBottomCenter: %f RightPupiluptoTopCenter: %f RightPupildowntoBottomCenter: %f", leftpupiluptoTopCenter,leftpupildowntoBottomCenter, rightpupiluptoTopCenter, rightpupildowntoBottomCenter));
-
-// for finding up using pupil center to face up and down method 1
-//        NormalizedLandmark leftFaceUp = result.multiFaceLandmarks().get(0).getLandmarkList().get(257);
-//        NormalizedLandmark leftFaceDown = result.multiFaceLandmarks().get(0).getLandmarkList().get(253);
-//        NormalizedLandmark rightFaceUp = result.multiFaceLandmarks().get(0).getLandmarkList().get(27);
-//        NormalizedLandmark rightFaceDown = result.multiFaceLandmarks().get(0).getLandmarkList().get(23);
-//        double leftpupiltoFaceUp = calculateDistanceNormalized(leftPupil, leftFaceUp);
-//        double leftpupiltoFaceDown = calculateDistanceNormalized(leftPupil, leftFaceDown);
-//        double rightpupiltoFaceUp = calculateDistanceNormalized(rightPupil, rightFaceUp);
-//        double rightpupiltoFaceDown = calculateDistanceNormalized(rightPupil, rightFaceDown);
-//        Log.i( TAG, String.format("LeftPupiltoFaceUp: %f  LeftPupiltoFaceDown: %f RightPupiltoFaceUp: %f RightPupiltoFaceDown: %f", leftpupiltoFaceUp,leftpupiltoFaceDown, rightpupiltoFaceUp, rightpupiltoFaceDown));
-
-// for finding up pupil up to line and pupil down to line distance
-        NormalizedLandmark leftPupilUp = result.multiFaceLandmarks().get(0).getLandmarkList().get(475);
-        NormalizedLandmark leftPupilDown = result.multiFaceLandmarks().get(0).getLandmarkList().get(477);
-        NormalizedLandmark rightPupilUp = result.multiFaceLandmarks().get(0).getLandmarkList().get(470);
-        NormalizedLandmark rightPupilDown = result.multiFaceLandmarks().get(0).getLandmarkList().get(472);
-        double leftpupilUptoLine = calculatePointDistance(leftPupilUp,leftHorizontal1, leftHorizontal2);
-        double leftpupilDowntoLine = calculatePointDistance(leftPupilDown,leftHorizontal1, leftHorizontal2);
-        double rightpupilUptoLine = calculatePointDistance(rightPupilUp,rightHorizontal1,rightHorizontal2);
-        double rightpupilDowntoLine = calculatePointDistance(rightPupilDown,rightHorizontal1,rightHorizontal2);
-
-
-        //Log.i( TAG, String.format("LeftPupilUptoLine: %f  LeftPupilDowntoLine: %f RightPupilUptoLine: %f RightPupilDowntoLine: %f", leftpupilUptoLine,leftpupilDowntoLine, rightpupilUptoLine, rightpupilDowntoLine));
-
-        if(leftpupilUptoLine > (2*leftpupilDowntoLine) && rightpupilUptoLine > (2*rightpupilDowntoLine)){
-          resultSequence.add("U");
-          //Log.i( TAG, resultSequence.toString());
-        }
-//        else if(Math.abs(leftpupilDowntoLine-leftpupilUptoLine)<0.003 && Math.abs(rightpupilDowntoLine-rightpupilUptoLine)<0.003){
-//          resultSequence.add("d");
-//          //Log.i( TAG, resultSequence.toString());
-//        }
-        else if(leftpupiltoCorner1 > (2*leftpupiltoCorner2) && rightpupiltoCorner1 > (2*rightpupiltoCorner2) ){
-          resultSequence.add("L");
-          //Log.i( TAG, resultSequence.toString());
-        }
-        else if(leftpupiltoCorner2 > (2*leftpupiltoCorner1) && rightpupiltoCorner2 > (2*rightpupiltoCorner1) ){
-          resultSequence.add("R");
-          //Log.i( TAG, resultSequence.toString());
+        // patient start camera auto fn trial
+        double lh = calculateDistanceNormalized(leftHorizontal1, leftHorizontal2);
+        double rh = calculateDistanceNormalized(rightHorizontal1, rightHorizontal2);
+        double lv1 = calculateDistanceNormalized(leftTop1, leftBottom1);
+        double lv2 = calculateDistanceNormalized(leftTop2, leftBottom2);
+        double rv1 = calculateDistanceNormalized(rightTop1, rightBottom1);
+        double rv2 = calculateDistanceNormalized(rightTop2, rightBottom2);
+        double leftEyeRatio = (lv1 + lv2) / (2 * lh);
+        double rightEyeRatio = (rv1 + rv2) / (2 * rh);
+        //Log.i( TAG, String.format("Left ER: %f  Right ER: %f", leftEyeRatio,rightEyeRatio));
+        if(trigger ==0){
+          if(trigger_count > 20){
+            trigger=1;
+            trigger_count=0;
+            runOnUiThread(new Runnable() {
+              @Override
+              public void run() {
+                tv.setText("Begin the sequence");
+              }
+            });
+            t1.speak("Begin", TextToSpeech.QUEUE_FLUSH, null);
+          }else {
+            if (leftEyeRatio < 0.1 && !(rightEyeRatio < 0.1)) {
+              //resultSequence.add("W");
+              trigger_count++;
+            }else{
+              trigger_count = 0;
+            }
+          }
         }else {
-          resultSequence.add("O");
-          //Log.i(TAG, resultSequence.toString());
+          // trigger = 1;
+          if (leftEyeRatio < 0.1 && !(rightEyeRatio < 0.1)) {
+            resultSequence.add("W");
+            trigger_count++;
+            if(trigger_count>20){
+              trigger = 0;
+              trigger_count = 0;
+              String res = "";
+              for (int i = 0; i < resultSequence.size() - 2; i++) {
+                if (resultSequence.get(i).equals(resultSequence.get(i + 1))) {
+                  if (resultSequence.get(i + 1).equals(resultSequence.get(i + 2))) {
+                    res = res + resultSequence.get(i);
+                    i++;
+                  }
+                }
+              }
+              int last = res.lastIndexOf('O');
+              int first = res.indexOf('O');
+              res = res.substring(first,last);
+              //Log.i(TAG, res);
+              int tc = 0;
+              String res1 = "";
+              for (int i = 0; i < res.length(); i++) {
+                if (res.charAt(i) == 'C') {
+                  tc++;
+                } else {
+                  if (tc > 10) {
+                    res1 = res1 + 'S';
+                    tc = 0;
+                  } else if (tc > 0) {
+                    res1 = res1 + 'C';
+                    tc = 0;
+                  }
+                  res1 = res1 + res.charAt(i);
+                }
+              }
+              int l = res1.length();
+              int j = 0;
+              String fin = "";
+              fin = fin + res1.charAt(j);
+              for (int i = 1; i < l; i++) {
+                if (res1.charAt(i) != res1.charAt(j)) {
+                  fin = fin + res1.charAt(i);
+                  j = i;
+                }
+              }
+              int max = 0;
+              String finkey = "";
+              for (Map.Entry<String, String> e : dict.entrySet()) {
+                //Log.i(TAG, fin + " " + e.getValue());
+                int temp = FuzzySearch.ratio(fin, e.getValue());
+                //Log.i(TAG, String.valueOf(temp));
+                if (temp > max) {
+                  max = temp;
+                  finkey = e.getKey();
+                }
+              }
+              String finalRes = res;
+              String finalFin = fin;
+              String finalFinkey = finkey;
+              runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                  tv.setText("Initial Triads:  " + finalRes + "\nFinal Sequence: " + finalFin + "\nResult: " + finalFinkey);
+                }
+              });
+              resultSequence.clear();
+              t1.speak(finkey, TextToSpeech.QUEUE_FLUSH, null);
+//              Log.i( TAG, "Result here");
+//              Log.i( TAG, resultSequence.toString());
+//              tv.setText("Works boop.....................................");
+            }
+            // Log.i( TAG, resultSequence.toString());
+          } else if (!(leftEyeRatio < 0.1) && rightEyeRatio < 0.1) {
+            resultSequence.add("V");
+            trigger_count = 0;
+          } else if ((leftEyeRatio + rightEyeRatio) / 2 < 0.1) {
+            resultSequence.add("C");
+            trigger_count = 0;
+            //Log.i( TAG, resultSequence.toString());
+          } else {
+            // eye
+            trigger_count = 0;
+            NormalizedLandmark leftPupil = result.multiFaceLandmarks().get(0).getLandmarkList().get(473);
+            NormalizedLandmark rightPupil = result.multiFaceLandmarks().get(0).getLandmarkList().get(468);
+            double leftpupiltoCorner1 = calculateDistanceNormalized(leftPupil, leftTop1);
+            double leftpupiltoCorner2 = calculateDistanceNormalized(leftPupil, leftTop2);
+            double rightpupiltoCorner1 = calculateDistanceNormalized(rightPupil, rightTop1);
+            double rightpupiltoCorner2 = calculateDistanceNormalized(rightPupil, rightTop2);
+            //Log.i( TAG, String.format("LeftPupiltoCorner1: %f  LeftPupiltoCorner2: %f RightPupiltoCorner1: %f RightPupiltoCorner2: %f", leftpupiltoCorner1,leftpupiltoCorner2, rightpupiltoCorner1, rightpupiltoCorner2));
+
+            // for finding up pupil up to line and pupil down to line distance
+            NormalizedLandmark leftPupilUp = result.multiFaceLandmarks().get(0).getLandmarkList().get(475);
+            NormalizedLandmark leftPupilDown = result.multiFaceLandmarks().get(0).getLandmarkList().get(477);
+            NormalizedLandmark rightPupilUp = result.multiFaceLandmarks().get(0).getLandmarkList().get(470);
+            NormalizedLandmark rightPupilDown = result.multiFaceLandmarks().get(0).getLandmarkList().get(472);
+            double leftpupilUptoLine = calculatePointDistance(leftPupilUp, leftHorizontal1, leftHorizontal2);
+            double leftpupilDowntoLine = calculatePointDistance(leftPupilDown, leftHorizontal1, leftHorizontal2);
+            double rightpupilUptoLine = calculatePointDistance(rightPupilUp, rightHorizontal1, rightHorizontal2);
+            double rightpupilDowntoLine = calculatePointDistance(rightPupilDown, rightHorizontal1, rightHorizontal2);
+
+
+            //Log.i( TAG, String.format("LeftPupilUptoLine: %f  LeftPupilDowntoLine: %f RightPupilUptoLine: %f RightPupilDowntoLine: %f", leftpupilUptoLine,leftpupilDowntoLine, rightpupilUptoLine, rightpupilDowntoLine));
+
+            if (leftpupilUptoLine > (2 * leftpupilDowntoLine) && rightpupilUptoLine > (2 * rightpupilDowntoLine)) {
+              resultSequence.add("U");
+              //Log.i( TAG, resultSequence.toString());
+            }
+            //        else if(Math.abs(leftpupilDowntoLine-leftpupilUptoLine)<0.003 && Math.abs(rightpupilDowntoLine-rightpupilUptoLine)<0.003){
+            //          resultSequence.add("d");
+            //          //Log.i( TAG, resultSequence.toString());
+            //        }
+            else if (leftpupiltoCorner1 > (2 * leftpupiltoCorner2) && rightpupiltoCorner1 > (2 * rightpupiltoCorner2)) {
+              resultSequence.add("L");
+              //Log.i( TAG, resultSequence.toString());
+            } else if (leftpupiltoCorner2 > (2 * leftpupiltoCorner1) && rightpupiltoCorner2 > (2 * rightpupiltoCorner1)) {
+              resultSequence.add("R");
+              //Log.i( TAG, resultSequence.toString());
+            } else {
+              resultSequence.add("O");
+              //Log.i(TAG, resultSequence.toString());
+            }
+          }
+          //tv.setText(resultSequence.toString());
         }
       }
-      //tv.setText(resultSequence.toString());
     }
   }
 

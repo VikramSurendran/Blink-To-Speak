@@ -7,7 +7,7 @@ android {
     buildToolsVersion "30.0.3"
 
     defaultConfig {
-        applicationId "com.google.mediapipe.apps.facemesh.testrev"
+        applicationId "com.google.mediapipe.apps.facemesh.final"
         minSdkVersion 21
         targetSdkVersion 31
         versionCode 1
